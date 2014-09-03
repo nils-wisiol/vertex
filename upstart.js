@@ -51,7 +51,7 @@ function delJob(name) {
  * @param service
  */
 function reload(service) {
-	exec('service ' + service + ' reload');
+	exec('initctl reload ' + service);
 }
 
 /**
@@ -59,7 +59,7 @@ function reload(service) {
  * @param service
  */
 function start(service) {
-	exec('service ' + service + ' start');
+	exec('initctl start ' + service);
 }
 
 /**
@@ -67,7 +67,7 @@ function start(service) {
  * @param service
  */
 function stop(service) {
-	exec('service ' + service + ' stop');
+	exec('initctl stop ' + service);
 }
 
 module.exports = {
