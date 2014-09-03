@@ -1,0 +1,19 @@
+{
+  "name": "vertex",
+  "version": "0.0.0",
+  "description": "Node app server hosting configuration tool.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "hosting"
+  ],
+  "author": "Nils Wisiol",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "hogan": "~1.0.2",
+    "shelljs": "~0.3.0"
+  }
+}
