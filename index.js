@@ -29,7 +29,7 @@ function addNode(config) {
 	mkdir(config.documentroot); // TODO set access rights
 	
 	//// 200 Add UNIX user
-	config.unixid = unix.useradd(config.unixuser, config.documentroot, config.shell);
+	unix.useradd(config.unixuser, config.documentroot, config.shell);
 	config.port = config.unixid + 10000;
 	
 	//// 300 Create nginx server block
@@ -40,7 +40,7 @@ function addNode(config) {
 	exec('git clone \'' + config.git + '\' .'); // TODO only newest revision TODO correct branch TODO authentication TODO compiliation and deployment
 	
 	//// 500 Create upstart job
-	upstart.addJob(config.upstart, config.documentroot, config.unixid);
+	upstart.addJob(config.upstart, config.documentroot, config.unixuser);
 	
 	//// 600 Refresh nginx config
 	upstart.reload('nginx');
