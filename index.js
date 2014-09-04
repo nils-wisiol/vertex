@@ -67,7 +67,7 @@ function delNode(config) {
 	// nothing to do
 	
 	//// 500 Create upstart job
-	upstart.delJob(config.appid, config.hostname);
+	upstart.delJob(config.upstart);
 	
 	//// 400 git clone / deployment
 	rm('-r', config.documentroot + '/*');
