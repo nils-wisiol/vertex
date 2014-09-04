@@ -44,9 +44,6 @@ function addNode(config) {
 	//// 500 Create upstart job
 	upstart.addJob(config.upstart, config.documentroot, config.unixuser, config.unixid, config.appid, config.hostname);
 	
-	//// 600 Refresh nginx config
-	upstart.reload('nginx');
-	
 	//// 700 start upstart job
 	upstart.start(config.upstart);
 
@@ -64,9 +61,6 @@ function delNode(config) {
 	
 	//// 700 start upstart job
 	upstart.stop(config.upstart);
-	
-	//// 600 Refresh nginx config
-	// nothing to do
 	
 	//// 500 Create upstart job
 	upstart.delJob(config.upstart);
