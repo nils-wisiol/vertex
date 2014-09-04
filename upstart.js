@@ -1,39 +1,27 @@
 var hogan = require('hogan')
 	, unix = require('./unix')
+	, fs = require('fs')
 require('shelljs/global')
 
 /**
  * Adds a job to upstart, that does `npm start` in `documentroot` as `user`.
- * 
- * @param name
- * @param documentroot
- * @param user
  */
-function addJob(name, documentroot, user) {
-	var template = 
-		'description "node app {{name}}"\n' + 
-		'\n' +
-		'start on started networking\n' +
-		'stop on runlevel [016]\n' +
-		'setuid {{user}}\n' +
-		'\n' +
-		'script\n' +
-		'	cd \'{{cwd}}\'\n' +
-		'	npm start\n' +
-		'end script\n' +
-		'\n' +
-		'respawn\n' +
-		''
-		;
+function addJob(name, documentroot, user, userid, appid, hostname) {
+	var template = fs.readFileSync('./upstart-job.conf.templ');
 
 	var config = hogan.compile(template).render({
 		name: name,
-		cwd: documentroot,
-		user: user
+		documentroot: documentroot,
+		user: user,
+		appid: appid,
+		hostname: hostname,
+		ip: '10.0.' + userid.substr(0,2) + '.' + userid.substr(2),
+		router: '10.1.' + userid.substr(0,2) + '.' + userid.substr(2)
 	});
 	
 	var file = '/etc/init/' + name + '.conf';
 	unix.writefile(file, config);
+	// TODO use init-checkconf to check syntax
 }
 
 /**

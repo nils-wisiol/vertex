@@ -1,0 +1,72 @@
+description "node app {{appid}}+{{hostname}}"
+
+start on started networking
+stop on runlevel [016]
+
+pre-start script
+        echo '===== PREPARING START OF {{appid}} ====='
+        echo 'removing old namespace, if exists'
+        ip netns delete {{appid}} 2> /dev/null || true
+        
+        echo 'removing old interfaces, if existing'
+        ip link delete {{appid}} 2> /dev/null || true
+        ip link delete {{appid}}INT 2> /dev/null || true
+        
+        echo 'create network namespace'
+        ip netns add {{appid}}
+        
+        echo 'add veth tunnel'
+        ip link add {{appid}} type veth peer name {{appid}}INT
+        
+        echo 'Moving one end to the namespace'
+        ip link set {{appid}}INT netns {{appid}}
+        
+        echo 'renaming namespace device to eth0'
+        ip netns exec {{appid}} ip link set {{appid}}INT name eth0
+        
+        echo 'assign IP address to namespace device'
+        ip netns exec {{appid}} ifconfig eth0 {{ip}}/8 up
+        
+        echo 'starting namespace lo device'
+        ip netns exec {{appid}} ifconfig lo up
+        
+        echo 'assign IP address to outside device'
+        ifconfig {{appid}} {{router}}/8 up
+        
+        echo 'set namespace default route'
+        ip netns exec {{appid}} route add default gw {{router}}
+end script
+
+script
+        echo '===== STARTING {{appid}} ====='
+        echo 'changing directory to document root'
+        cd '{{documentroot}}'
+        
+        echo 'starting app'
+        ip netns exec {{appid}} setuid {{user}} npm start
+end script
+
+post-start script
+        echo '===== {{appid}} STARTED ====='
+        echo 'waiting for app to initialize'
+        sleep 2
+        
+        echo 'scanning for ports'
+        PORTS=`ip netns exec {{appid}} netstat -t -l -p | grep -oE '\*:([0-9][0-9]?[0-9]?[0-9]?)\s' | cut -d ':' -f 2`
+        for P in $PORTS; do
+                echo "app listening on $P"
+        done
+        PRIMARY=`echo $PORTS | head -1`
+        
+        echo "update nginx config to primary port $PRIMARY"
+        sed -i "s/{{ip}}:[0-9][0-9]*;/{{ip}}:$PRIMARY;/g" /etc/nginx/conf.d/*{{appid}}*.conf
+        
+        echo 'reload nginx config'
+        service nginx reload
+end script
+
+post-stop script
+        echo '===== CLEANING UP {{appid}} ====='
+        echo 'deleting namespace'
+        ip netns delete {{appid}}
+end script

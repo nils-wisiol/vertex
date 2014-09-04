@@ -30,7 +30,7 @@ function addNode(config) {
 	
 	//// 200 Add UNIX user
 	unix.useradd(config.unixuser, config.documentroot, config.shell);
-	config.port = config.unixid + 10000;
+	config.unixid = exec('id -u ' + config.unixuser);
 	
 	//// 300 Create nginx server block
 	nginx.addRevProxy(config.appid, config.hostname, config.port);
@@ -40,7 +40,7 @@ function addNode(config) {
 	exec('git clone --depth=1 \'' + config.git + '\' .'); // TODO correct branch TODO authentication TODO compiliation and deployment
 	
 	//// 500 Create upstart job
-	upstart.addJob(config.upstart, config.documentroot, config.unixuser);
+	upstart.addJob(config.upstart, config.documentroot, config.unixuser, config.unixid, config.appid, config.hostname);
 	
 	//// 600 Refresh nginx config
 	upstart.reload('nginx');
