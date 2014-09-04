@@ -7,7 +7,7 @@ require('shelljs/global')
  * Adds a job to upstart, that does `npm start` in `documentroot` as `user`.
  */
 function addJob(name, documentroot, user, userid, appid, hostname) {
-	var template = fs.readFileSync('./upstart-job.conf.tmpl');
+	var template = fs.readFileSync('./upstart-job.conf.tmpl') + '';
 
 	var config = hogan.compile(template).render({
 		name: name,
