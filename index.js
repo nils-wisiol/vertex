@@ -39,6 +39,7 @@ function addNode(config) {
 	var dir = pwd();
 	cd(config.documentroot);
 	exec('git clone --depth=1 \'' + config.git + '\' .'); // TODO correct branch TODO authentication TODO compiliation and deployment
+	exec('npm install');
 	cd(dir);
 	
 	//// 500 Create upstart job
