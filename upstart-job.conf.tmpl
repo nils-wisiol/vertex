@@ -61,7 +61,7 @@ post-start script
         if [ ! -z "$PRIMARY" ] ; then
 			echo "update nginx config to primary port $PRIMARY"
 			sed -i "s/{{ip}}:[0-9][0-9]*;/{{ip}}:$PRIMARY;/g" /etc/nginx/conf.d/*{{appid}}*.conf
-        endif
+        fi
 
         echo 'reload nginx config'
         service nginx reload
