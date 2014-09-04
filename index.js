@@ -36,7 +36,7 @@ function addNode(config) {
 	nginx.addRevProxy(config.appid, config.hostname);
 	
 	//// 400 git clone / deployment
-	var pwd = pwd();
+	var pwd = exec('pwd');
 	cd(config.documentroot);
 	exec('git clone --depth=1 \'' + config.git + '\' .'); // TODO correct branch TODO authentication TODO compiliation and deployment
 	cd(pwd);
