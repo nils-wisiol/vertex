@@ -50,7 +50,7 @@ function addNode(config) {
 
 	// save config to database
 	
-	return c;
+	return config;
 }
 
 /**
