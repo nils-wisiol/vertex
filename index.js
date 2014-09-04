@@ -30,7 +30,7 @@ function addNode(config) {
 	
 	//// 200 Add UNIX user
 	unix.useradd(config.unixuser, config.documentroot, config.shell);
-	config.unixid = exec('id -u ' + config.unixuser);
+	config.unixid = exec('id -u ' + config.unixuser) + '';
 	
 	//// 300 Create nginx server block
 	nginx.addRevProxy(config.appid, config.hostname);
