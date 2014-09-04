@@ -9,7 +9,7 @@ require('shelljs/global')
  * @param appid Identifies the app this forwarding is for. Only used for config file name. 
  * @param hostname The hostname that is used to identify traffic for this app.
  */
-function addRevProxy(appid, hostname, unixid) {
+function addRevProxy(appid, hostname, userid) {
 	var template = 
 		'server {\n' + 
 		'	listen 80;\n' +
