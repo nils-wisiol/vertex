@@ -36,10 +36,10 @@ function addNode(config) {
 	nginx.addRevProxy(config.appid, config.hostname);
 	
 	//// 400 git clone / deployment
-	var pwd = exec('pwd');
+	var dir = pwd();
 	cd(config.documentroot);
 	exec('git clone --depth=1 \'' + config.git + '\' .'); // TODO correct branch TODO authentication TODO compiliation and deployment
-	cd(pwd);
+	cd(dir);
 	
 	//// 500 Create upstart job
 	upstart.addJob(config.upstart, config.documentroot, config.unixuser, config.unixid, config.appid, config.hostname);
