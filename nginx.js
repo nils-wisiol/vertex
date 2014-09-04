@@ -17,7 +17,7 @@ function addRevProxy(appid, hostname, userid) {
 		'	server_name {{hostname}};\n' +
 		'	\n' +
 		'	location / {\n' +
-		'		proxy_pass http://{{ip}}:0;\n' +
+		'		proxy_pass http://{{ip}}:80;\n' +
 		'		proxy_http_version 1.1;\n' +
 		'		proxy_set_header Upgrade $http_upgrade;\n' +
 		'		proxy_set_header Connection \'upgrade\';\n' +
