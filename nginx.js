@@ -32,7 +32,7 @@ function addRevProxy(appid, hostname, userid) {
 		ip: '10.0.' + userid.substr(0,2) + '.' + userid.substr(2)
 	});
 	
-	var file = '/etc/nginx/conf.d/' + hostname + '+' + appid + '.conf';
+	var file = '/etc/nginx/conf.d/' + appid + '+' + hostname + '.conf';
 	unix.writefile(file, config);
 }
 
