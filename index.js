@@ -33,7 +33,7 @@ function addNode(config) {
 	config.unixid = exec('id -u ' + config.unixuser);
 	
 	//// 300 Create nginx server block
-	nginx.addRevProxy(config.appid, config.hostname, config.port);
+	nginx.addRevProxy(config.appid, config.hostname);
 	
 	//// 400 git clone / deployment
 	cd(config.documentroot);

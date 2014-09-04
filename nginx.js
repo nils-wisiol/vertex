@@ -8,9 +8,8 @@ require('shelljs/global')
  * 
  * @param appid Identifies the app this forwarding is for. Only used for config file name. 
  * @param hostname The hostname that is used to identify traffic for this app.
- * @param port The port on localhost traffic gets forwarded to.
  */
-function addRevProxy(appid, hostname, port) {
+function addRevProxy(appid, hostname) {
 	var template = 
 		'server {\n' + 
 		'	listen 80;\n' +
@@ -18,7 +17,7 @@ function addRevProxy(appid, hostname, port) {
 		'	server_name {{hostname}};\n' +
 		'	\n' +
 		'	location / {\n' +
-		'		proxy_pass http://localhost:{{port}};\n' +
+		'		proxy_pass http://localhost:0;\n' +
 		'		proxy_http_version 1.1;\n' +
 		'		proxy_set_header Upgrade $http_upgrade;\n' +
 		'		proxy_set_header Connection \'upgrade\';\n' +
@@ -29,8 +28,7 @@ function addRevProxy(appid, hostname, port) {
 		;
 
 	var config = hogan.compile(template).render({
-		hostname: hostname,
-		port: port
+		hostname: hostname
 	});
 	
 	var file = '/etc/nginx/conf.d/' + hostname + '+' + appid + '.conf';
