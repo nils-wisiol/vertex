@@ -4,7 +4,8 @@
   "description": "Node app server hosting configuration tool.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [
     "node",
@@ -14,6 +15,13 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "hogan": "~1.0.2",
-    "shelljs": "~0.3.0"
+    "shelljs": "~0.3.0",
+    "q": "~1.0.1",
+    "express": "~4.8.7",
+    "body-parser": "~1.7.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-debian-package": "~0.1.9"
   }
 }
