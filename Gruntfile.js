@@ -18,7 +18,8 @@ module.exports = function(grunt) {
 					links: [],
 					directories: [
 						'/opt/vertex',
-						'/etc/init'
+						'/etc/init',
+						'/etc/nginx/conf.d'
 					]
 				},
 				files: [
