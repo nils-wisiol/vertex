@@ -36,6 +36,10 @@ module.exports = function(grunt) {
 					{
 						src: ['config/upstream/vertex.conf'],
 						dest: '/etc/init/vertex.conf'
+					},
+					{
+						src: ['config/nginx/vertex.conf'],
+						dest: '/etc/nginx/conf.d/vertex.conf'
 					}
 				]
 			}
